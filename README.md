@@ -1,26 +1,32 @@
 # Phone Device Management System
 
-A comprehensive solution for managing phone devices, including both frontend and backend components.
+A comprehensive solution for managing phone devices, built with FastAPI backend and React frontend.
 
 ## Project Structure
 
 ```
 Device_Management_System/
-├── phone-device-backend/   # Backend server code
-└── phone-device-frontend/  # Frontend React application
+├── phone-device-backend/   # FastAPI backend server
+└── phone-device-frontend/  # React frontend application
 ```
 
 ## Features
 
-- **Device Management**: Track and manage phone devices
-- **User Interface**: Modern and responsive web interface
-- **RESTful API**: Backend services for device operations
+- **Device Management**: Track and manage phone devices with CRUD operations
+- **FastAPI Backend**: High-performance RESTful API with automatic documentation
+- **Modern Frontend**: Responsive React interface with state management
+- **JWT Authentication**: Secure user authentication system
 
 ## Prerequisites
 
-- Node.js (v14 or later)
+### Backend
+- Python 3.8+
+- pip
+- PostgreSQL/MySQL/MongoDB (or your preferred database)
+
+### Frontend
+- Node.js (v16 or later)
 - npm or yarn
-- MongoDB (or your preferred database)
 
 ## Getting Started
 
@@ -33,11 +39,22 @@ Device_Management_System/
 2. **Backend Setup**
    ```bash
    cd phone-device-backend
-   npm install
+   # Create and activate virtual environment
+   python -m venv venv
+   source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+   
+   # Install dependencies
+   pip install -r requirements.txt
+   
    # Configure environment variables
    cp .env.example .env
-   # Start the backend server
-   npm start
+   # Edit .env with your configuration
+   
+   # Run database migrations (if any)
+   alembic upgrade head
+   
+   # Start the FastAPI server
+   uvicorn main:app --reload
    ```
 
 3. **Frontend Setup**
@@ -50,7 +67,7 @@ Device_Management_System/
 
 4. **Access the application**
    - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
+   - Backend API: http://localhost:8000
 
 ## Environment Variables
 
@@ -58,17 +75,33 @@ Device_Management_System/
 Create a `.env` file in the `phone-device-backend` directory with the following variables:
 
 ```
-PORT=5000
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
+# Server
+APP_ENV=development
+APP_HOST=0.0.0.0
+APP_PORT=8000
+
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/device_management
+# or for SQLite
+# DATABASE_URL=sqlite:///./device_management.db
+
+# Security
+SECRET_KEY=your-secret-key-here
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# CORS
+FRONTEND_URL=http://localhost:3000
 ```
 
 ## Available Scripts
 
 ### Backend
-- `npm start`: Start the production server
-- `npm run dev`: Start the development server with nodemon
-- `npm test`: Run tests
+- `uvicorn main:app --reload`: Start the development server with auto-reload
+- `pytest`: Run tests
+- `alembic upgrade head`: Run database migrations
+- `black .`: Format code with Black
+- `isort .`: Sort imports
 
 ### Frontend
 - `npm start`: Start the development server
